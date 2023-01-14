@@ -41,6 +41,10 @@ let star1Upgrade3Qt = 0;
 let star1Upgrade3Power = 1;
 let star1Upgrade3Price = 60;
 
+let star1Upgrade4Qt = 0;
+let star1Upgrade4Power = 3;
+let star1Upgrade4Price = 30;
+
 let star2Upgrade1Qt = 0;
 let star2Upgrade1Power = 1;
 let star2Upgrade1Price = 10;
@@ -52,6 +56,10 @@ let star2Upgrade2Price = 30;
 let star2Upgrade3Qt = 0;
 let star2Upgrade3Power = 1;
 let star2Upgrade3Price = 60;
+
+let star2Upgrade4Qt = 0;
+let star2Upgrade4Power = 3;
+let star2Upgrade4Price = 30;
 
 let prestigePrice = 1;
 let prestige4Power = 1;
@@ -108,6 +116,11 @@ function powerStar1() {
         else {
             star2Gain = (star2Gain + star2Upgrade1Power) * 2;
             star2Power -= star2Upgrade2Qt * star2Gain;
+
+            if (prestiges.prestige9) {
+                star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+                star2Power -= star2Upgrade2Qt * star2Gain;
+            }
         };
     }
 
@@ -122,6 +135,8 @@ function powerStar2() {
         // star2Power -= star2Gain + star2BoostPower * star2Boosts;
         star2Power -= star2Gain;
 
+        if ( prestiges.prestige8) powerStar1();
+
         if (star2Power <= 0) {
             star2Power = 0;
             clearInterval(curIntervalId);
@@ -130,10 +145,7 @@ function powerStar2() {
             star3Power = 1;
             star3Btn.querySelector('span').innerHTML = `${star3Power}/${star3Limit}`;
         }
-        // changeInventory();
-        // changeMarket();
 
-        // star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
         updateUi();
     }, star2Time);
 }
@@ -159,6 +171,13 @@ function buyUpgrade(id) {
             // star1Gain *= 2;
             star1GainBase *= 2;
         }
+
+        if (id === 'star1Upgrade4') {
+            star1Power -= star1Upgrade1Price;
+            star1Upgrade1Qt++;
+            // star1Gain += star1Upgrade1Power;
+            star1GainBase += star1Upgrade1Power;
+        }
     }
 
     if (id[4] === '2') {
@@ -179,6 +198,17 @@ function buyUpgrade(id) {
             star2Upgrade1Price /= 2;
             star2Upgrade2Price /= 2;
             star2Upgrade3Qt++;
+
+            if(prestiges.prestige6) {
+                star1Upgrade1Price /= 2;
+                star1Upgrade2Price /= 2;
+            }
+        }
+
+        if (id === 'star2Upgrade4') {
+            star2Power += star2Upgrade1Price;
+            star2Upgrade1Qt++;
+            star2Gain += star2Upgrade1Power;
         }
     }
 
@@ -254,22 +284,34 @@ function prestige(id) {
     if (id === 'star3Upgrade4' || prestiges.prestige4 === true) {
         star3Power -= prestigePrice;
         prestiges.prestige4 = true;
-        // star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
     }
 
     if (id === 'star3Upgrade5' || prestiges.prestige5 === true) {
         star3Power -= prestigePrice;
         prestiges.prestige5 = true;
-        // star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
+    }
+
+    if (id === 'star3Upgrade6' || prestiges.prestige6 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige6 = true;
+        buyUpgrade('star2Upgrade3');
+    }
+
+    if (id === 'star3Upgrade7' || prestiges.prestige7 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige7 = true;
+    }
+
+    if (id === 'star3Upgrade8' || prestiges.prestige8 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige8 = true;
+    }
+
+    if (id === 'star3Upgrade9' || prestiges.prestige9 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige9 = true;
     }
 }
-
-// function switchMenu(curMenu) {
-//     menus.forEach(menu => {
-//         if (!menu.classList.contains('hidden')) menu.classList.add('hidden');
-//         if (menu.classList.contains(curMenu) || menu.classList.contains('inventory')) menu.classList.remove('hidden');
-//     })
-// }
 
 function updateUi() {
     star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
@@ -288,15 +330,23 @@ function updateUi() {
     else upgradeBtns[2].classList.remove('hidden')
     upgradeBtns[2].querySelector('span').innerHTML = star1Upgrade3Price;
 
-    if (star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[3].classList.add('hidden')
-    else upgradeBtns[3].classList.remove('hidden')
-    upgradeBtns[3].querySelector('span').innerHTML = star2Upgrade1Price;
+    if (star1Power >= star1Upgrade4Price && prestiges.prestige7) upgradeBtns[3].classList.remove('hidden')
+    else upgradeBtns[3].classList.add('hidden')
+    upgradeBtns[3].querySelector('span').innerHTML = star1Upgrade4Price;
 
-    if (star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[4].classList.add('hidden')
+    if (star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[4].classList.add('hidden')
     else upgradeBtns[4].classList.remove('hidden')
-    upgradeBtns[4].querySelector('span').innerHTML = star2Upgrade2Price;
+    upgradeBtns[4].querySelector('span').innerHTML = star2Upgrade1Price;
 
-    if (star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[5].classList.add('hidden')
+    if (star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[5].classList.add('hidden')
     else upgradeBtns[5].classList.remove('hidden')
-    upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade3Price;
+    upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade2Price;
+
+    if (star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[6].classList.add('hidden')
+    else upgradeBtns[6].classList.remove('hidden')
+    upgradeBtns[6].querySelector('span').innerHTML = star2Upgrade3Price;
+
+    if (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7) upgradeBtns[7].classList.remove('hidden')
+    else upgradeBtns[7].classList.add('hidden')
+    upgradeBtns[7].querySelector('span').innerHTML = star2Upgrade4Price;
 }
