@@ -6,6 +6,7 @@ const star1Btn = document.querySelector('#star1');
 const star2Btn = document.querySelector('#star2');
 const star3Btn = document.querySelector('#star3');
 const transferBtn = document.querySelector('#transfer');
+const autoBtn = document.querySelector('#autoToggle');
 const winBtn = document.querySelector('#win');
 
 // const menus = Array.from(document.querySelector('.menus').children);
@@ -17,7 +18,7 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0.9999;
+let star1Power = 0.0001;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
@@ -97,6 +98,10 @@ updateUi();
 
 star1Btn.addEventListener('click', powerStar1);
 // star1Boost1Btn.addEventListener('click', buyUpgrade)
+autoBtn.addEventListener('click', () => {
+    isAuto = !isAuto;
+    transferBtn.classList.toggle('hidden');
+});
 
 star1Btn.addEventListener('click', (e) => showUpgrades(e));
 star2Btn.addEventListener('click', (e) => showUpgrades(e));
@@ -128,34 +133,40 @@ function powerStar1() {
 
         star1Btn.removeEventListener('click', powerStar1);
         transferBtn.classList.remove('hidden');
-        
+
         transferBtn.addEventListener('click', () => {
 
-            star1Power = star1Power - star1Limit;
-            if (!curIntervalId) {
-                star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
-                powerStar2();
-            }
-            // else star2Gain *= 2;
-            else {
-                star2Gain = (star2Gain + star2Upgrade1Power) * 2;
-                star2Power -= star2Upgrade2Qt * star2Gain;
-
-                if (prestiges.prestige9) {
-                    star2Gain = (star2Gain + star2Upgrade1Power) * 2;
-                    star2Power -= star2Upgrade2Qt * star2Gain;
-                }
-            };
-            
-            transferBtn.classList.add('hidden');
-            star1Power = 0;
+            handleStar1Power();
             star1Btn.addEventListener('click', powerStar1);
         })
+    }
 
-        
+    else if (star1Power >= star1Limit && isAuto) {
+        handleStar1Power();
     }
 
     updateUi();
+}
+
+function handleStar1Power() {
+    star1Power = star1Power - star1Limit;
+    if (!curIntervalId) {
+        star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
+        powerStar2();
+    }
+    // else star2Gain *= 2;
+    else {
+        star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+        star2Power -= star2Upgrade2Qt * star2Gain;
+
+        if (prestiges.prestige9) {
+            star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+            star2Power -= star2Upgrade2Qt * star2Gain;
+        }
+    };
+    
+    transferBtn.classList.add('hidden');
+    star1Power = 0;
 }
 
 function powerStar2() {

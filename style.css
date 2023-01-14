@@ -99,6 +99,13 @@ button:focus-visible {
   left: -150px;
 }
 
+#autoToggle {
+  position: absolute;
+  opacity: 1;
+  top: -50px;
+  left: -10px;
+}
+
 #transfer .hidden{
   opacity: 0;
 }
