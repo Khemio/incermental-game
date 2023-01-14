@@ -1,5 +1,3 @@
-// import Decimal from 'break_eternity.js';
-// import Decimal from 'break_infinity.js';
 import './style.css'
 
 const star1Btn = document.querySelector('#star1');
@@ -101,6 +99,7 @@ star1Btn.addEventListener('click', powerStar1);
 autoBtn.addEventListener('click', () => {
     isAuto = !isAuto;
     transferBtn.classList.toggle('hidden');
+    updateUi();
 });
 
 star1Btn.addEventListener('click', (e) => showUpgrades(e));
@@ -387,6 +386,24 @@ function updateUi() {
     star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
     star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
     star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power}/${star3Limit}` : 'Inactive';
+
+    if (star1Power >= star1Limit && !isAuto) {
+        // star1Power = 1;
+
+        star1Btn.removeEventListener('click', powerStar1);
+        transferBtn.classList.remove('hidden');
+
+        // transferBtn.addEventListener('click', () => {
+
+        //     handleStar1Power();
+        //     star1Btn.addEventListener('click', powerStar1);
+        // })
+    }
+
+    if((star1Power <= star1Limit && !isAuto) || isAuto) {
+        star1Btn.addEventListener('click', powerStar1);
+        transferBtn.classList.add('hidden');
+    }
 
     if (star1Power < star1Upgrade1Price) upgradeBtns[0].classList.add('hidden')
     else upgradeBtns[0].classList.remove('hidden')
