@@ -14,20 +14,21 @@ const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.target.id)))
 
 let star1Limit = 1;
-let star1Power = 0;
+let star1Power = .9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
 
 let star2Limit = star1Limit;
 let star2Power = star2Limit;
-let star2GainBase = 0.001;
+let star2GainBase = 0.1;
 let star2GainModifier = 1;
 let star2Gain;
-let star2Time = 1000;
+let star2Time = 100;
 
 let star3Limit = 1;
 let star3Power = 0;
+let isReady = false;
 
 let star1Upgrade1Qt = 0;
 let star1Upgrade1Power = 0.0001;
@@ -88,7 +89,8 @@ let prestiges = {
 let curMenuId = null;
 let curIntervalId = null;
 
-star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
+// star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
+updateUi();
 
 star1Btn.addEventListener('click', powerStar1);
 // star1Boost1Btn.addEventListener('click', buyUpgrade)
@@ -102,7 +104,7 @@ winBtn.addEventListener('click', () => alert('You Win!!!'));
 
 function showUpgrades(e) {
     let id = e.target.id ? e.target.id : e.target.parentElement.id
-    console.log(id);
+
     if (curMenuId === id) return
     else upgardeMenus.forEach(menu => {
             if (menu.getAttribute('data-upgrades') === id) menu.classList.remove('hidden')
@@ -153,7 +155,7 @@ function powerStar2() {
             // clearInterval(curIntervalId);
             // curIntervalId = null;
 
-            star3Power = 1;
+            isReady = true;
             star3Btn.querySelector('span').innerHTML = `${star3Power}/${star3Limit}`;
         }
 
@@ -245,7 +247,7 @@ function prestige(id) {
     star2GainModifier = 1;
     star2Time = 1000;
 
-    star3Power = 0;
+    star3Power += 0.1;
 
     star1Upgrade1Qt = 0;
     star1Upgrade1Power = 0.0001;
@@ -288,7 +290,7 @@ function prestige(id) {
     // console.log(curIntervalId);
     
     if (id === 'star3Upgrade1' || prestiges.prestige1 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige1 = true;
         star1GainModifier *= 2;
         star1Upgrade1Power *= 2;
@@ -297,51 +299,51 @@ function prestige(id) {
     }
 
     if (id === 'star3Upgrade2' || prestiges.prestige2 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige2 = true;
         star2Time /= 2;
         // Implement "Each fill burns double energy"
     }
 
     if (id === 'star3Upgrade3' || prestiges.prestige3 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige3 = true;
         powerStar2();
     }
 
     if (id === 'star3Upgrade4' || prestiges.prestige4 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige4 = true;
     }
 
     if (id === 'star3Upgrade5' || prestiges.prestige5 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige5 = true;
     }
 
     if (id === 'star3Upgrade6' || prestiges.prestige6 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige6 = true;
         buyUpgrade('star2Upgrade3');
     }
 
     if (id === 'star3Upgrade7' || prestiges.prestige7 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige7 = true;
     }
 
     if (id === 'star3Upgrade8' || prestiges.prestige8 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige8 = true;
     }
 
     if (id === 'star3Upgrade9' || prestiges.prestige9 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige9 = true;
     }
 
     if (id === 'star3Upgrade10' || prestiges.prestige10 === true) {
-        star3Power -= prestigePrice;
+        // star3Power -= prestigePrice;
         prestiges.prestige10 = true;
         star2Upgrade1Price = tempStar2Upgrade1Price;
         star2Upgrade2Price = tempStar2Upgrade2Price;
@@ -356,7 +358,7 @@ function prestige(id) {
 function updateUi() {
     star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
     star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
-    star3Btn.querySelector('span').innerHTML = star3Power === star3Limit ? `${star3Power}/${star3Limit}` : 'Inactive';
+    star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power}/${star3Limit}` : 'Inactive';
 
     if (star1Power < star1Upgrade1Price) upgradeBtns[0].classList.add('hidden')
     else upgradeBtns[0].classList.remove('hidden')
@@ -392,7 +394,7 @@ function updateUi() {
     upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(4)}) [${star2Upgrade4Qt}]`;
 
     Object.keys(prestiges).forEach((key, index) => {
-        if (star3Power === 1 && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
+        if (isReady && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
         else upgradeBtns[8 + index].classList.add('hidden')
 
         if (!Object.values(prestiges).includes(false)) winBtn.classList.remove('hidden');
