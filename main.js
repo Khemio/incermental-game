@@ -16,7 +16,7 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0.0001;
+let star1Power = 0.9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
@@ -94,9 +94,10 @@ let curIntervalId = null;
 // star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
 updateUi();
 
-star1Btn.addEventListener('click', powerStar1);
+star1Btn.addEventListener('click', (e) => powerStar1(e));
 // star1Boost1Btn.addEventListener('click', buyUpgrade)
 autoBtn.addEventListener('click', () => {
+    autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
     isAuto = !isAuto;
     transferBtn.classList.toggle('hidden');
     updateUi();
@@ -121,7 +122,8 @@ function showUpgrades(e) {
         })
 }
 
-function powerStar1() {
+function powerStar1(e) {
+    if (e.target.id === 'autoToggle') return;
     if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.05;
     
     star1Gain = star1GainBase * star1GainModifier;
@@ -387,6 +389,11 @@ function updateUi() {
     star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
     star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power}/${star3Limit}` : 'Inactive';
 
+    autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
+
+    if (star1Power < star1Limit) autoBtn.classList.add('hidden');
+    else autoBtn.classList.remove('hidden');
+
     if (star1Power >= star1Limit && !isAuto) {
         // star1Power = 1;
 
@@ -400,7 +407,7 @@ function updateUi() {
         // })
     }
 
-    if((star1Power <= star1Limit && !isAuto) || isAuto) {
+    if((star1Power < star1Limit && !isAuto) || isAuto) {
         star1Btn.addEventListener('click', powerStar1);
         transferBtn.classList.add('hidden');
     }
