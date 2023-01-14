@@ -32,34 +32,42 @@ let star3Power = 0;
 let star1Upgrade1Qt = 0;
 let star1Upgrade1Power = 0.0001;
 let star1Upgrade1Price = 0.001;
+let star1Upgrade1PriceMod = 1.3;
 
 let star1Upgrade2Qt = 0;
 let star1Upgrade2Power = 0.0001;
-let star1Upgrade2Price = 0.003;
+let star1Upgrade2Price = 0.01;
+let star1Upgrade2PriceMod = 2;
 
 let star1Upgrade3Qt = 0;
 let star1Upgrade3Power = 1;
-let star1Upgrade3Price = 0.006;
+let star1Upgrade3Price = 0.5;
+let star1Upgrade3PriceMod = 100000;
 
 let star1Upgrade4Qt = 0;
-let star1Upgrade4Power = 0.0003;
-let star1Upgrade4Price = 0.003;
+let star1Upgrade4Power = 0.01;
+let star1Upgrade4Price = 0.01;
+let star1Upgrade4PriceMod = 1.3;
 
 let star2Upgrade1Qt = 0;
 let star2Upgrade1Power = 0.001;
-let star2Upgrade1Price = 0.01;
+let star2Upgrade1Price = 0.005;
+let star2Upgrade1PriceMod = 1.3;
 
 let star2Upgrade2Qt = 0;
 let star2Upgrade2Power = 1;
-let star2Upgrade2Price = 0.03;
+let star2Upgrade2Price = 0.1;
+let star2Upgrade2PriceMod = 2;
 
 let star2Upgrade3Qt = 0;
 let star2Upgrade3Power = 1;
-let star2Upgrade3Price = 0.06;
+let star2Upgrade3Price = 0.05;
+let star2Upgrade3PriceMod = 3;
 
 let star2Upgrade4Qt = 0;
 let star2Upgrade4Power = 3;
-let star2Upgrade4Price = 0.03;
+let star2Upgrade4Price = 0.01;
+let star2Upgrade4PriceMod = 1.3;
 
 let prestigePrice = 1;
 let prestige4Power = 1;
@@ -105,7 +113,7 @@ function showUpgrades(e) {
 }
 
 function powerStar1() {
-    if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
+    if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.05;
     
     star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
@@ -132,7 +140,7 @@ function powerStar1() {
 }
 
 function powerStar2() {
-    if (prestiges.prestige5) star2GainModifier *= 1 + (star2Upgrade1Qt + star2Upgrade2Qt + star2Upgrade3Qt) * 0.01;
+    if (prestiges.prestige5) star2GainModifier *= 1 + (star2Upgrade1Qt + star2Upgrade2Qt + star2Upgrade3Qt) * 0.05;
     star2Gain = star2GainBase * star2GainModifier
     curIntervalId = setInterval(() => {
         // star2Power -= star2Gain + star2BoostPower * star2Boosts;
@@ -142,8 +150,8 @@ function powerStar2() {
 
         if (star2Power <= 0) {
             star2Power = 0;
-            clearInterval(curIntervalId);
-            curIntervalId = null;
+            // clearInterval(curIntervalId);
+            // curIntervalId = null;
 
             star3Power = 1;
             star3Btn.querySelector('span').innerHTML = `${star3Power}/${star3Limit}`;
@@ -160,26 +168,30 @@ function buyUpgrade(id) {
             star1Upgrade1Qt++;
             // star1Gain += star1Upgrade1Power;
             star1GainBase += star1Upgrade1Power;
+            star1Upgrade1Price *= star1Upgrade1PriceMod;
         }
     
         if (id === 'star1Upgrade2') {
             star1Power -= star1Upgrade2Price;
             star1Upgrade2Qt++;
             star1Upgrade1Power += star1Upgrade2Power;
+            star1Upgrade2Price *= star1Upgrade2PriceMod;
         }
     
         if (id === 'star1Upgrade3') {
             star1Power -= star1Upgrade3Price;
             star1Upgrade3Qt++;
-            // star1Gain *= 2;
+            star1Gain *= 2;
             star1GainBase *= 2;
+            star1Upgrade3Price *= star1Upgrade3PriceMod;
         }
 
         if (id === 'star1Upgrade4') {
-            star1Power -= star1Upgrade1Price;
-            star1Upgrade1Qt++;
+            star1Power -= star1Upgrade4Price;
+            star1Upgrade4Qt++;
             // star1Gain += star1Upgrade1Power;
-            star1GainBase += star1Upgrade1Power;
+            star1GainBase += star1Upgrade4Power;
+            star1Upgrade4Price *= star1Upgrade4PriceMod;
         }
     }
 
@@ -187,13 +199,14 @@ function buyUpgrade(id) {
         if (id === 'star2Upgrade1') {
             star2Power += star2Upgrade1Price;
             star2Upgrade1Qt++;
-            star2Gain += star2Upgrade1Power;
+            star2Upgrade1Price *= star2Upgrade1PriceMod;
         }
     
         if (id === 'star2Upgrade2') {
             star2Power += star2Upgrade2Price;
             star2Upgrade2Qt++;
             // star1Upgrade1Power += star1Upgrade2Power;
+            star2Upgrade2Price *= star2Upgrade2PriceMod;
         }
     
         if (id === 'star2Upgrade3') {
@@ -201,6 +214,7 @@ function buyUpgrade(id) {
             star2Upgrade1Price /= 2;
             star2Upgrade2Price /= 2;
             star2Upgrade3Qt++;
+            star2Upgrade3Price *= star2Upgrade3PriceMod;
 
             if(prestiges.prestige6) {
                 star1Upgrade1Price /= 2;
@@ -209,9 +223,10 @@ function buyUpgrade(id) {
         }
 
         if (id === 'star2Upgrade4') {
-            star2Power += star2Upgrade1Price;
-            star2Upgrade1Qt++;
-            star2Gain += star2Upgrade1Power;
+            star2Power += star2Upgrade4Price;
+            star2Upgrade4Qt++;
+            star2Gain += star2Upgrade4Power;
+            star2Upgrade4Price *= star2Upgrade4PriceMod;
         }
     }
 
