@@ -2,158 +2,301 @@ import './style.css'
 
 const star1Btn = document.querySelector('#star1');
 const star2Btn = document.querySelector('#star2');
-const visitBtn = document.querySelector('#visit');
-const mainBtn = document.querySelector('#visitMain');
+const star3Btn = document.querySelector('#star3');
 
-const star1BoostBtn = document.querySelector('#star1Boost');
-const star2BoostBtn = document.querySelector('#star2Boost');
+// const menus = Array.from(document.querySelector('.menus').children);
+const upgardeMenus = Array.from(document.querySelector('.upgrades').children);
+const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 
-const menus = Array.from(document.querySelector('.menus').children);
+upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.target.id)))
 
-let star1Limit = 10;
+
+let focusStar = "star1"
+
+let star1Limit = 100;
 let star1Power = 0;
-let star1Gain = 1;
-// let star1TimesFilled = 0;
+let star1GainBase = 1;
+let star1GainModifier = 1;
+let star1Gain;
 
-let star2Limit = star1Limit;
+let star2Limit = star1Limit * 10;
 let star2Power = star2Limit;
-let star2Gain = 0.1;
+let star2GainBase = 1;
+let star2GainModifier = 1;
+let star2Gain;
+let star2Time = 1000;
 
-// let money = 1000;
-let star1Boosts = 0;
-let star1BoostPower = 300;
-let star1BoostPrice = 50;
+let star3Limit = 1;
+let star3Power = 0;
 
-let star2Boosts = 0;
-let star2BoostPower = 50;
-let star2BoostPrice = 100;
-let star1Price = 1;
-let star2Price = 5;
+let star1Upgrade1Qt = 0;
+let star1Upgrade1Power = 1;
+let star1Upgrade1Price = 10;
 
-let curMenu;
-let curIntervalId;
+let star1Upgrade2Qt = 0;
+let star1Upgrade2Power = 1;
+let star1Upgrade2Price = 30;
 
-star1Btn.innerHTML = `${star1Power}/${star1Limit}`;
+let star1Upgrade3Qt = 0;
+let star1Upgrade3Power = 1;
+let star1Upgrade3Price = 60;
+
+let star2Upgrade1Qt = 0;
+let star2Upgrade1Power = 1;
+let star2Upgrade1Price = 10;
+
+let star2Upgrade2Qt = 0;
+let star2Upgrade2Power = 1;
+let star2Upgrade2Price = 30;
+
+let star2Upgrade3Qt = 0;
+let star2Upgrade3Power = 1;
+let star2Upgrade3Price = 60;
+
+let prestigePrice = 1;
+let prestige4Power = 1;
+let prestiges = {
+    prestige1 : false,
+    prestige2 : false,
+    prestige3 : false,
+    prestige4 : false,
+    prestige5 : false,
+    prestige6 : false,
+    prestige7 : false,
+    prestige8 : false,
+    prestige9 : false,
+    prestige10 : false,
+    // prestige11 = false,
+}
+
+let curMenuId = null;
+let curIntervalId = null;
+
+star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
 
 star1Btn.addEventListener('click', powerStar1);
-// star2Btn.addEventListener('click', powerStar2);
-visitBtn.addEventListener('click', visitMarket);
-mainBtn.addEventListener('click', visitMain);
-star1BoostBtn.addEventListener('click', buyStar1Boost);
-star2BoostBtn.addEventListener('click', buyStar2Boost);
+// star1Boost1Btn.addEventListener('click', buyUpgrade)
 
-// curIntervalId = startInterval();
+star1Btn.addEventListener('click', (e) => showUpgrades(e));
+star2Btn.addEventListener('click', (e) => showUpgrades(e));
+star3Btn.addEventListener('click', (e) => showUpgrades(e));
 
-function startInterval(time = 1000) {
-    setInterval(() => {
-        star2Power -= star2Gain + star2BoostPower * star2Boosts;
-        if (star2Power <= 0) {
-            star2Power = 0;
-            money += star2Price;
-        }
-        changeInventory();
-        changeMarket();
 
-        star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
-    
-    }, time);
+function showUpgrades(e) {
+    let id = e.target.id ? e.target.id : e.target.parentElement.id
+    console.log(id);
+    if (curMenuId === id) return
+    else upgardeMenus.forEach(menu => {
+            if (menu.getAttribute('data-upgrades') === id) menu.classList.remove('hidden')
+            else menu.classList.add('hidden')
+        
+            curMenuId = id;
+        })
 }
 
 function powerStar1() {
-
-    // star1Power += star1Gain + star1BoostPower * star1Boosts;
+    if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
+    star1Gain = star1GainBase * star1GainModifier
     star1Power += star1Gain;
     if (star1Power >= star1Limit) {
         star1Power = star1Power - star1Limit;
-        // money += star1Price;
-        curIntervalId = startInterval();
-
-        star1Boosts++;
-
-        star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
-        star2Btn.classList.remove('hidden');
-
+        if (!curIntervalId) {
+            star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
+            powerStar2();
+        }
+        // else star2Gain *= 2;
+        else {
+            star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+            star2Power -= star2Upgrade2Qt * star2Gain;
+        };
     }
-    // changeInventory();
-    // changeMarket();
 
-    star1Btn.innerHTML = `${star1Power}/${star1Limit}`;
-
-    // star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
-    // star1Power += star1Gain;
-    //     if (star1Power >= star1Limit) {
-    //         star1Power = star1Power - star1Limit;
-    //         money += star1Price;
-    //     }
-    //     changeInventory();
-    //     changeMarket();
+    // star1Btn.innerHTML = `${star1Power}/${star1Limit}`;
+    updateUi();
 }
 
 function powerStar2() {
-    let boost = star1Boosts * star1BoostPower;
+    if (prestiges.prestige5) star2GainModifier *= 1 + (star2Upgrade1Qt + star2Upgrade2Qt + star2Upgrade3Qt) * 0.01;
+    star2Gain = star2GainBase * star2GainModifier
+    curIntervalId = setInterval(() => {
+        // star2Power -= star2Gain + star2BoostPower * star2Boosts;
+        star2Power -= star2Gain;
 
-    curIntervalId = startInterval(1000 - boost);
+        if (star2Power <= 0) {
+            star2Power = 0;
+            clearInterval(curIntervalId);
+            curIntervalId = null;
 
-    // star2Power += star2Gain + star2BoostPower * star2Boosts;
-    // if (star2Power >= star2Limit) {
-    //     star2Power = star2Power - star2Limit;
-    //     money += star2Price;
-    // }
-    // changeInventory();
-    // changeMarket();
+            star3Power = 1;
+            star3Btn.querySelector('span').innerHTML = `${star3Power}/${star3Limit}`;
+        }
+        // changeInventory();
+        // changeMarket();
 
-    // star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
+        // star2Btn.innerHTML = `${star2Power}/${star2Limit}`;
+        updateUi();
+    }, star2Time);
 }
 
-// function changeInventory() {
-//     document.querySelector('#money').innerHTML = `Money: $${money}`;
-//     console.log('inventory')
-// }
+function buyUpgrade(id) {
+    if (id[4] === '1') {
+        if (id === 'star1Upgrade1') {
+            star1Power -= star1Upgrade1Price;
+            star1Upgrade1Qt++;
+            // star1Gain += star1Upgrade1Power;
+            star1GainBase += star1Upgrade1Power;
+        }
+    
+        if (id === 'star1Upgrade2') {
+            star1Power -= star1Upgrade2Price;
+            star1Upgrade2Qt++;
+            star1Upgrade1Power += star1Upgrade2Power;
+        }
+    
+        if (id === 'star1Upgrade3') {
+            star1Power -= star1Upgrade3Price;
+            star1Upgrade3Qt++;
+            // star1Gain *= 2;
+            star1GainBase *= 2;
+        }
+    }
 
-function visitMarket() {
-    curMenu = switchMenu('marketplace');
-    // changeMarket();
+    if (id[4] === '2') {
+        if (id === 'star2Upgrade1') {
+            star2Power += star2Upgrade1Price;
+            star2Upgrade1Qt++;
+            star2Gain += star2Upgrade1Power;
+        }
+    
+        if (id === 'star2Upgrade2') {
+            star2Power += star2Upgrade2Price;
+            star2Upgrade2Qt++;
+            // star1Upgrade1Power += star1Upgrade2Power;
+        }
+    
+        if (id === 'star2Upgrade3') {
+            star2Power += star2Upgrade3Price;
+            star2Upgrade1Price /= 2;
+            star2Upgrade2Price /= 2;
+            star2Upgrade3Qt++;
+        }
+    }
+
+    if (id[4] === '3') prestige(id);
+
+    updateUi();
 }
-function visitMain() {
-    curMenu = switchMenu('main');
-}
 
-function switchMenu(curMenu) {
-    menus.forEach(menu => {
-        if (!menu.classList.contains('hidden')) menu.classList.add('hidden');
-        if (menu.classList.contains(curMenu) || menu.classList.contains('inventory')) menu.classList.remove('hidden');
-    })
-}
+function prestige(id) {
+    star1Power = 0;
+    star1GainBase = 1;
+    // star1GainModifier = 1;
 
-// function changeMarket() {
-//     if (money >= 50) {
-//         star1BoostBtn.classList.remove('hidden');
-//     }
-//     else {
-//         star1BoostBtn.classList.add('hidden');
-//     }
+    star2Power = star2Limit;
+    star2GainBase = 1;
+    star2GainModifier = 1;
+    star2Time = 1000;
 
-//     if (money >= 100) {
-//         star2BoostBtn.classList.remove('hidden');
-//     }
-//     else {
-//         star2BoostBtn.classList.add('hidden');
-//     }
-// }
+    star3Power = 0;
 
-function buyStar1Boost() {
-    star1Boosts++;
-    money -= star1BoostPrice;
-    // changeInventory();
-    // changeMarket();
+    star1Upgrade1Qt = 0;
+    star1Upgrade1Power = 1;
+    star1Upgrade1Price = 10;
 
+    star1Upgrade2Qt = 0;
+    star1Upgrade2Power = 1;
+    star1Upgrade2Price = 30;
+
+    star1Upgrade3Qt = 0;
+    star1Upgrade3Power = 1;
+    star1Upgrade3Price = 60;
+
+    star2Upgrade1Qt = 0;
+    star2Upgrade1Power = 1;
+    star2Upgrade1Price = 10;
+
+    star2Upgrade2Qt = 0;
+    star2Upgrade2Power = 1;
+    star2Upgrade2Price = 30;
+
+    star2Upgrade3Qt = 0;
+    star2Upgrade3Power = 1;
+    star2Upgrade3Price = 60;
+
+    // curMenuId = null;
+    clearInterval(curIntervalId);
     curIntervalId = null;
-    curIntervalId = startInterval(1000 - star1BoostPower * star1Boosts);
+
+    // console.log(curIntervalId);
+    
+    if (id === 'star3Upgrade1' || prestiges.prestige1 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige1 = true;
+        star1GainModifier *= 2;
+        star1Upgrade1Power *= 2;
+        star1Upgrade2Power *= 2;
+        star1Upgrade3Power *= 2;
+    }
+
+    if (id === 'star3Upgrade2' || prestiges.prestige2 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige2 = true;
+        star2Time /= 2;
+        // Implement "Each fill burns double energy"
+    }
+
+    if (id === 'star3Upgrade3' || prestiges.prestige3 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige3 = true;
+        powerStar2();
+    }
+
+    if (id === 'star3Upgrade4' || prestiges.prestige4 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige4 = true;
+        // star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
+    }
+
+    if (id === 'star3Upgrade5' || prestiges.prestige5 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige5 = true;
+        // star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
+    }
 }
 
-function buyStar2Boost() {
-    star2Boosts++;
-    money -= star2BoostPrice;
-    // changeInventory();
-    // changeMarket();
+// function switchMenu(curMenu) {
+//     menus.forEach(menu => {
+//         if (!menu.classList.contains('hidden')) menu.classList.add('hidden');
+//         if (menu.classList.contains(curMenu) || menu.classList.contains('inventory')) menu.classList.remove('hidden');
+//     })
+// }
+
+function updateUi() {
+    star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
+    star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power}/${star2Limit}` : 'Inactive';
+    star3Btn.querySelector('span').innerHTML = star3Power === star3Limit ? `${star3Power}/${star3Limit}` : 'Inactive';
+
+    if (star1Power < star1Upgrade1Price) upgradeBtns[0].classList.add('hidden')
+    else upgradeBtns[0].classList.remove('hidden')
+    upgradeBtns[0].querySelector('span').innerHTML = star1Upgrade1Price;
+
+    if (star1Power < star1Upgrade2Price) upgradeBtns[1].classList.add('hidden')
+    else upgradeBtns[1].classList.remove('hidden')
+    upgradeBtns[1].querySelector('span').innerHTML = star1Upgrade2Price;
+
+    if (star1Power < star1Upgrade3Price) upgradeBtns[2].classList.add('hidden')
+    else upgradeBtns[2].classList.remove('hidden')
+    upgradeBtns[2].querySelector('span').innerHTML = star1Upgrade3Price;
+
+    if (star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[3].classList.add('hidden')
+    else upgradeBtns[3].classList.remove('hidden')
+    upgradeBtns[3].querySelector('span').innerHTML = star2Upgrade1Price;
+
+    if (star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[4].classList.add('hidden')
+    else upgradeBtns[4].classList.remove('hidden')
+    upgradeBtns[4].querySelector('span').innerHTML = star2Upgrade2Price;
+
+    if (star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[5].classList.add('hidden')
+    else upgradeBtns[5].classList.remove('hidden')
+    upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade3Price;
 }

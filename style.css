@@ -58,14 +58,61 @@ button:focus-visible {
 
 .content {
   margin-inline: auto;
+  width: 80%;
 }
 
-/* .marketplace {
-  display: none
-} */
+.menus {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 3rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.main div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  /* width: 300px; */
+}
+
+.main div:first-child img {
+  width: 50px;
+  /* margin-right: 50px; */
+}
+
+.main div img {
+  width: 100px;
+}
+
+.upgrades {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-block: auto;
+}
+
+.upgrades div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
 
 .hidden {
-  display: none;
+  display: none !important;
+  /* translate: 1000px; */
 }
 
 .visible {
