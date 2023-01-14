@@ -14,7 +14,7 @@ const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.target.id)))
 
 let star1Limit = 1;
-let star1Power = .9999;
+let star1Power = 0;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
@@ -24,7 +24,7 @@ let star2Power = star2Limit;
 let star2GainBase = 0.1;
 let star2GainModifier = 1;
 let star2Gain;
-let star2Time = 100;
+let star2Time = 1000;
 
 let star3Limit = 1;
 let star3Power = 0;
