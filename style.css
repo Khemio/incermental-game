@@ -83,6 +83,7 @@ button:focus-visible {
 }
 
 .main div {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,6 +91,16 @@ button:focus-visible {
   cursor: pointer;
   user-select: none;
   /* width: 300px; */
+}
+
+#transfer {
+  position: absolute;
+  opacity: 1;
+  left: -150px;
+}
+
+#transfer .hidden{
+  opacity: 0;
 }
 
 .main div:first-child img {
@@ -118,6 +129,8 @@ button:focus-visible {
   gap: 1rem;
 }
 
+
+
 .hidden {
   display: none !important;
   /* translate: 1000px; */
@@ -127,7 +140,7 @@ button:focus-visible {
   display: block;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
@@ -138,4 +151,4 @@ button:focus-visible {
   button {
     background-color: #1a1a1a;
   }
-}
+} */

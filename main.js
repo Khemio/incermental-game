@@ -5,6 +5,7 @@ import './style.css'
 const star1Btn = document.querySelector('#star1');
 const star2Btn = document.querySelector('#star2');
 const star3Btn = document.querySelector('#star3');
+const transferBtn = document.querySelector('#transfer');
 const winBtn = document.querySelector('#win');
 
 // const menus = Array.from(document.querySelector('.menus').children);
@@ -13,15 +14,17 @@ const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 
 upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.target.id)))
 
+let isAuto = false;
+
 let star1Limit = 1;
-let star1Power = 0;
+let star1Power = 0.9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
 
 let star2Limit = star1Limit;
 let star2Power = star2Limit;
-let star2GainBase = 0.1;
+let star2GainBase = 0.001;
 let star2GainModifier = 1;
 let star2Gain;
 let star2Time = 1000;
@@ -120,22 +123,36 @@ function powerStar1() {
     star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
 
-    if (star1Power >= star1Limit) {
-        star1Power = star1Power - star1Limit;
-        if (!curIntervalId) {
-            star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
-            powerStar2();
-        }
-        // else star2Gain *= 2;
-        else {
-            star2Gain = (star2Gain + star2Upgrade1Power) * 2;
-            star2Power -= star2Upgrade2Qt * star2Gain;
+    if (star1Power >= star1Limit && !isAuto) {
+        star1Power = 1;
 
-            if (prestiges.prestige9) {
+        star1Btn.removeEventListener('click', powerStar1);
+        transferBtn.classList.remove('hidden');
+        
+        transferBtn.addEventListener('click', () => {
+
+            star1Power = star1Power - star1Limit;
+            if (!curIntervalId) {
+                star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
+                powerStar2();
+            }
+            // else star2Gain *= 2;
+            else {
                 star2Gain = (star2Gain + star2Upgrade1Power) * 2;
                 star2Power -= star2Upgrade2Qt * star2Gain;
-            }
-        };
+
+                if (prestiges.prestige9) {
+                    star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+                    star2Power -= star2Upgrade2Qt * star2Gain;
+                }
+            };
+            
+            transferBtn.classList.add('hidden');
+            star1Power = 0;
+            star1Btn.addEventListener('click', powerStar1);
+        })
+
+        
     }
 
     updateUi();
