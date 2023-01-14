@@ -360,35 +360,36 @@ function updateUi() {
 
     if (star1Power < star1Upgrade1Price) upgradeBtns[0].classList.add('hidden')
     else upgradeBtns[0].classList.remove('hidden')
-    upgradeBtns[0].querySelector('span').innerHTML = star1Upgrade1Price.toFixed(4);
+    upgradeBtns[0].querySelector('.upgInfo').innerHTML = `(${star1Upgrade1Price.toFixed(4)}) [${star1Upgrade1Qt}]`;
 
     if (star1Power < star1Upgrade2Price) upgradeBtns[1].classList.add('hidden')
     else upgradeBtns[1].classList.remove('hidden')
-    upgradeBtns[1].querySelector('span').innerHTML = star1Upgrade2Price.toFixed(4);
+    upgradeBtns[1].querySelector('.upgInfo').innerHTML = `(${star1Upgrade2Price.toFixed(4)}) [${star1Upgrade2Qt}]`;
 
     if (star1Power < star1Upgrade3Price) upgradeBtns[2].classList.add('hidden')
     else upgradeBtns[2].classList.remove('hidden')
-    upgradeBtns[2].querySelector('span').innerHTML = star1Upgrade3Price.toFixed(4);
+    upgradeBtns[2].querySelector('.upgInfo').innerHTML = `(${star1Upgrade3Price.toFixed(4)}) [${star1Upgrade3Qt}]`;
 
     if (star1Power >= star1Upgrade4Price && prestiges.prestige7) upgradeBtns[3].classList.remove('hidden')
     else upgradeBtns[3].classList.add('hidden')
-    upgradeBtns[3].querySelector('span').innerHTML = star1Upgrade4Price.toFixed(4);
+    upgradeBtns[3].querySelector('.upgInfo').innerHTML = `(${star1Upgrade4Price.toFixed(4)}) [${star1Upgrade4Qt}]`;
 
     if (star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[4].classList.add('hidden')
     else upgradeBtns[4].classList.remove('hidden')
-    upgradeBtns[4].querySelector('span').innerHTML = star2Upgrade1Price.toFixed(4);
+    upgradeBtns[4].querySelector('.upgInfo').innerHTML = `(${star2Upgrade1Price.toFixed(4)}) [${star2Upgrade1Qt}]`;
 
     if (star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[5].classList.add('hidden')
     else upgradeBtns[5].classList.remove('hidden')
-    upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade2Price.toFixed(4);
+    upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade2Qt;
+    upgradeBtns[5].querySelector('.upgInfo').innerHTML = `(${star2Upgrade2Price.toFixed(4)}) [${star2Upgrade2Qt}]`;
 
     if (star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[6].classList.add('hidden')
     else upgradeBtns[6].classList.remove('hidden')
-    upgradeBtns[6].querySelector('span').innerHTML = star2Upgrade3Price.toFixed(4);
+    upgradeBtns[6].querySelector('.upgInfo').innerHTML = `(${star2Upgrade3Price.toFixed(4)}) [${star2Upgrade3Qt}]`;
 
     if (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7) upgradeBtns[7].classList.remove('hidden')
     else upgradeBtns[7].classList.add('hidden')
-    upgradeBtns[7].querySelector('span').innerHTML = star2Upgrade4Price.toFixed(4);
+    upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(4)}) [${star2Upgrade4Qt}]`;
 
     Object.keys(prestiges).forEach((key, index) => {
         if (star3Power === 1 && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
