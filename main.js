@@ -65,7 +65,7 @@ let star2Upgrade3Price = 0.05;
 let star2Upgrade3PriceMod = 3;
 
 let star2Upgrade4Qt = 0;
-let star2Upgrade4Power = 3;
+let star2Upgrade4Power = 0.01;
 let star2Upgrade4Price = 0.01;
 let star2Upgrade4PriceMod = 1.3;
 
@@ -255,31 +255,31 @@ function prestige(id) {
     star1Upgrade2Qt = 0;
     star1Upgrade2Power = 0.0001;
     let tempStar1Upgrade2Price = star1Upgrade2Price
-    star1Upgrade2Price = 0.003;
+    star1Upgrade2Price = 0.01;
 
     star1Upgrade3Qt = 0;
-    star1Upgrade3Price = 0.006;
+    star1Upgrade3Price = 0.5;
 
     star1Upgrade4Qt = 0;
-    star1Upgrade4Power = 0.0003;
-    star1Upgrade4Price = 0.003;
+    star1Upgrade4Power = 0.01;
+    star1Upgrade4Price = 0.01;
 
     star2Upgrade1Qt = 0;
     star2Upgrade1Power = 0.001;
     let tempStar2Upgrade1Price = star2Upgrade1Price;
-    star2Upgrade1Price = 0.01;
+    star2Upgrade1Price = 0.005;
 
     star2Upgrade2Qt = 0;
-    star2Upgrade2Power = 0.001;
+    // star2Upgrade2Power = 0.001;
     let tempStar2Upgrade2Price = star2Upgrade2Price;
-    star2Upgrade2Price = 0.03;
+    star2Upgrade2Price = 0.1;
 
     star2Upgrade3Qt = 0;
-    star2Upgrade3Price = 0.06;
+    star2Upgrade3Price = 0.05;
 
     star2Upgrade4Qt = 0;
     star2Upgrade4Power = 0.003;
-    star2Upgrade4Price = 0.03;
+    star2Upgrade4Price = 0.01;
 
     // curMenuId = null;
     clearInterval(curIntervalId);
