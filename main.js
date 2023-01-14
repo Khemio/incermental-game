@@ -234,10 +234,12 @@ function prestige(id) {
 
     star1Upgrade1Qt = 0;
     star1Upgrade1Power = 0.0001;
+    let tempStar1Upgrade1Price = star1Upgrade1Price
     star1Upgrade1Price = 0.001;
 
     star1Upgrade2Qt = 0;
     star1Upgrade2Power = 0.0001;
+    let tempStar1Upgrade2Price = star1Upgrade2Price
     star1Upgrade2Price = 0.003;
 
     star1Upgrade3Qt = 0;
@@ -248,19 +250,21 @@ function prestige(id) {
     star1Upgrade4Price = 0.003;
 
     star2Upgrade1Qt = 0;
-    star2Upgrade1Power = 1;
-    star2Upgrade1Price = 10;
+    star2Upgrade1Power = 0.001;
+    let tempStar2Upgrade1Price = star2Upgrade1Price;
+    star2Upgrade1Price = 0.01;
 
     star2Upgrade2Qt = 0;
-    star2Upgrade2Power = 1;
-    star2Upgrade2Price = 30;
+    star2Upgrade2Power = 0.001;
+    let tempStar2Upgrade2Price = star2Upgrade2Price;
+    star2Upgrade2Price = 0.03;
 
     star2Upgrade3Qt = 0;
     star2Upgrade3Price = 0.06;
 
-    star2Upgrade1Qt = 0;
-    star2Upgrade1Power = 0.003;
-    star2Upgrade1Price = 0.03;
+    star2Upgrade4Qt = 0;
+    star2Upgrade4Power = 0.003;
+    star2Upgrade4Price = 0.03;
 
     // curMenuId = null;
     clearInterval(curIntervalId);
@@ -324,6 +328,13 @@ function prestige(id) {
     if (id === 'star3Upgrade10' || prestiges.prestige10 === true) {
         star3Power -= prestigePrice;
         prestiges.prestige10 = true;
+        star2Upgrade1Price = tempStar2Upgrade1Price;
+        star2Upgrade2Price = tempStar2Upgrade2Price;
+
+        if (prestiges.prestige6 === true) {
+            star1Upgrade1Price = tempStar1Upgrade1Price;
+            star1Upgrade2Price = tempStar1Upgrade2Price;
+        }
     }
 }
 
