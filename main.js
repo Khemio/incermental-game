@@ -128,12 +128,14 @@ function powerStar1(e) {
     
     star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
+    // console.log(e)
 
     if (star1Power >= star1Limit && !isAuto) {
         star1Power = 1;
-
+        
         star1Btn.removeEventListener('click', powerStar1);
         transferBtn.classList.remove('hidden');
+        // if (e.target.id !== 'transfer') return;
 
         transferBtn.addEventListener('click', () => {
 
@@ -145,6 +147,8 @@ function powerStar1(e) {
     else if (star1Power >= star1Limit && isAuto) {
         handleStar1Power();
     }
+
+    star1Btn.removeEventListener('click', powerStar1);
 
     updateUi();
 }
@@ -408,7 +412,7 @@ function updateUi() {
     }
 
     if((star1Power < star1Limit && !isAuto) || isAuto) {
-        star1Btn.addEventListener('click', powerStar1);
+        // star1Btn.addEventListener('click', powerStar1);
         transferBtn.classList.add('hidden');
     }
 
