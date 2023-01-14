@@ -1,3 +1,5 @@
+// import Decimal from 'break_eternity.js';
+// import Decimal from 'break_infinity.js';
 import './style.css'
 
 const star1Btn = document.querySelector('#star1');
@@ -11,18 +13,15 @@ const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 
 upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.target.id)))
 
-
-let focusStar = "star1"
-
-let star1Limit = 100;
+let star1Limit = 1;
 let star1Power = 0;
-let star1GainBase = 1;
+let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
 
-let star2Limit = star1Limit * 10;
+let star2Limit = star1Limit;
 let star2Power = star2Limit;
-let star2GainBase = 1;
+let star2GainBase = 0.001;
 let star2GainModifier = 1;
 let star2Gain;
 let star2Time = 1000;
@@ -31,50 +30,50 @@ let star3Limit = 1;
 let star3Power = 0;
 
 let star1Upgrade1Qt = 0;
-let star1Upgrade1Power = 1;
-let star1Upgrade1Price = 10;
+let star1Upgrade1Power = 0.0001;
+let star1Upgrade1Price = 0.001;
 
 let star1Upgrade2Qt = 0;
-let star1Upgrade2Power = 1;
-let star1Upgrade2Price = 30;
+let star1Upgrade2Power = 0.0001;
+let star1Upgrade2Price = 0.003;
 
 let star1Upgrade3Qt = 0;
 let star1Upgrade3Power = 1;
-let star1Upgrade3Price = 60;
+let star1Upgrade3Price = 0.006;
 
 let star1Upgrade4Qt = 0;
-let star1Upgrade4Power = 3;
-let star1Upgrade4Price = 30;
+let star1Upgrade4Power = 0.0003;
+let star1Upgrade4Price = 0.003;
 
 let star2Upgrade1Qt = 0;
-let star2Upgrade1Power = 1;
-let star2Upgrade1Price = 10;
+let star2Upgrade1Power = 0.001;
+let star2Upgrade1Price = 0.01;
 
 let star2Upgrade2Qt = 0;
 let star2Upgrade2Power = 1;
-let star2Upgrade2Price = 30;
+let star2Upgrade2Price = 0.03;
 
 let star2Upgrade3Qt = 0;
 let star2Upgrade3Power = 1;
-let star2Upgrade3Price = 60;
+let star2Upgrade3Price = 0.06;
 
 let star2Upgrade4Qt = 0;
 let star2Upgrade4Power = 3;
-let star2Upgrade4Price = 30;
+let star2Upgrade4Price = 0.03;
 
 let prestigePrice = 1;
 let prestige4Power = 1;
 let prestiges = {
-    prestige1 : true,
-    prestige2 : true,
-    prestige3 : true,
-    prestige4 : true,
-    prestige5 : true,
-    prestige6 : true,
-    prestige7 : true,
-    prestige8 : true,
-    prestige9 : true,
-    prestige10 : true,
+    prestige1 : false,
+    prestige2 : false,
+    prestige3 : false,
+    prestige4 : false,
+    prestige5 : false,
+    prestige6 : false,
+    prestige7 : false,
+    prestige8 : false,
+    prestige9 : false,
+    prestige10 : false,
     // prestige11 = false,
 }
 
@@ -107,8 +106,10 @@ function showUpgrades(e) {
 
 function powerStar1() {
     if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.01;
-    star1Gain = star1GainBase * star1GainModifier
+    
+    star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
+
     if (star1Power >= star1Limit) {
         star1Power = star1Power - star1Limit;
         if (!curIntervalId) {
@@ -127,7 +128,6 @@ function powerStar1() {
         };
     }
 
-    // star1Btn.innerHTML = `${star1Power}/${star1Limit}`;
     updateUi();
 }
 
@@ -222,27 +222,30 @@ function buyUpgrade(id) {
 
 function prestige(id) {
     star1Power = 0;
-    star1GainBase = 1;
+    star1GainBase = 0.0001;
     // star1GainModifier = 1;
 
     star2Power = star2Limit;
-    star2GainBase = 1;
+    star2GainBase = 0.001;
     star2GainModifier = 1;
     star2Time = 1000;
 
     star3Power = 0;
 
     star1Upgrade1Qt = 0;
-    star1Upgrade1Power = 1;
-    star1Upgrade1Price = 10;
+    star1Upgrade1Power = 0.0001;
+    star1Upgrade1Price = 0.001;
 
     star1Upgrade2Qt = 0;
-    star1Upgrade2Power = 1;
-    star1Upgrade2Price = 30;
+    star1Upgrade2Power = 0.0001;
+    star1Upgrade2Price = 0.003;
 
     star1Upgrade3Qt = 0;
-    star1Upgrade3Power = 1;
-    star1Upgrade3Price = 60;
+    star1Upgrade3Price = 0.006;
+
+    star1Upgrade4Qt = 0;
+    star1Upgrade4Power = 0.0003;
+    star1Upgrade4Price = 0.003;
 
     star2Upgrade1Qt = 0;
     star2Upgrade1Power = 1;
@@ -253,8 +256,11 @@ function prestige(id) {
     star2Upgrade2Price = 30;
 
     star2Upgrade3Qt = 0;
-    star2Upgrade3Power = 1;
-    star2Upgrade3Price = 60;
+    star2Upgrade3Price = 0.06;
+
+    star2Upgrade1Qt = 0;
+    star2Upgrade1Power = 0.003;
+    star2Upgrade1Price = 0.03;
 
     // curMenuId = null;
     clearInterval(curIntervalId);
@@ -314,11 +320,16 @@ function prestige(id) {
         star3Power -= prestigePrice;
         prestiges.prestige9 = true;
     }
+
+    if (id === 'star3Upgrade10' || prestiges.prestige10 === true) {
+        star3Power -= prestigePrice;
+        prestiges.prestige10 = true;
+    }
 }
 
 function updateUi() {
-    star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
-    star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power}/${star2Limit}` : 'Inactive';
+    star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
+    star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
     star3Btn.querySelector('span').innerHTML = star3Power === star3Limit ? `${star3Power}/${star3Limit}` : 'Inactive';
 
     if (star1Power < star1Upgrade1Price) upgradeBtns[0].classList.add('hidden')
