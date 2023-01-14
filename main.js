@@ -3,6 +3,7 @@ import './style.css'
 const star1Btn = document.querySelector('#star1');
 const star2Btn = document.querySelector('#star2');
 const star3Btn = document.querySelector('#star3');
+const winBtn = document.querySelector('#win');
 
 // const menus = Array.from(document.querySelector('.menus').children);
 const upgardeMenus = Array.from(document.querySelector('.upgrades').children);
@@ -64,16 +65,16 @@ let star2Upgrade4Price = 30;
 let prestigePrice = 1;
 let prestige4Power = 1;
 let prestiges = {
-    prestige1 : false,
-    prestige2 : false,
-    prestige3 : false,
-    prestige4 : false,
-    prestige5 : false,
-    prestige6 : false,
-    prestige7 : false,
-    prestige8 : false,
-    prestige9 : false,
-    prestige10 : false,
+    prestige1 : true,
+    prestige2 : true,
+    prestige3 : true,
+    prestige4 : true,
+    prestige5 : true,
+    prestige6 : true,
+    prestige7 : true,
+    prestige8 : true,
+    prestige9 : true,
+    prestige10 : true,
     // prestige11 = false,
 }
 
@@ -88,6 +89,8 @@ star1Btn.addEventListener('click', powerStar1);
 star1Btn.addEventListener('click', (e) => showUpgrades(e));
 star2Btn.addEventListener('click', (e) => showUpgrades(e));
 star3Btn.addEventListener('click', (e) => showUpgrades(e));
+
+winBtn.addEventListener('click', () => alert('You Win!!!'));
 
 
 function showUpgrades(e) {
@@ -349,4 +352,11 @@ function updateUi() {
     if (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7) upgradeBtns[7].classList.remove('hidden')
     else upgradeBtns[7].classList.add('hidden')
     upgradeBtns[7].querySelector('span').innerHTML = star2Upgrade4Price;
+
+    Object.keys(prestiges).forEach((key, index) => {
+        if (star3Power === 1 && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
+        else upgradeBtns[8 + index].classList.add('hidden')
+
+        if (!Object.values(prestiges).includes(false)) winBtn.classList.remove('hidden');
+    })
 }
