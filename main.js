@@ -7,7 +7,6 @@ const transferBtn = document.querySelector('#transfer');
 const autoBtn = document.querySelector('#autoToggle');
 const winBtn = document.querySelector('#win');
 
-// const menus = Array.from(document.querySelector('.menus').children);
 const upgardeMenus = Array.from(document.querySelector('.upgrades').children);
 const upgradeBtns = upgardeMenus.flatMap(menu => Array.from(menu.children));
 
@@ -91,11 +90,9 @@ let prestiges = {
 let curMenuId = null;
 let curIntervalId = null;
 
-// star1Btn.querySelector('span').innerHTML = `${star1Power}/${star1Limit}`;
 updateUi();
 
 star1Btn.addEventListener('click', (e) => powerStar1(e));
-// star1Boost1Btn.addEventListener('click', buyUpgrade)
 autoBtn.addEventListener('click', () => {
     autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
     isAuto = !isAuto;
@@ -135,7 +132,6 @@ function powerStar1(e) {
         
         star1Btn.removeEventListener('click', powerStar1);
         transferBtn.classList.remove('hidden');
-        // if (e.target.id !== 'transfer') return;
 
         transferBtn.addEventListener('click', () => {
 
@@ -178,15 +174,12 @@ function powerStar2() {
     if (prestiges.prestige5) star2GainModifier *= 1 + (star2Upgrade1Qt + star2Upgrade2Qt + star2Upgrade3Qt) * 0.05;
     star2Gain = star2GainBase * star2GainModifier
     curIntervalId = setInterval(() => {
-        // star2Power -= star2Gain + star2BoostPower * star2Boosts;
         star2Power -= star2Gain;
 
         if ( prestiges.prestige8) powerStar1();
 
         if (star2Power <= 0) {
             star2Power = 0;
-            // clearInterval(curIntervalId);
-            // curIntervalId = null;
 
             isReady = true;
             star3Btn.querySelector('span').innerHTML = `${star3Power}/${star3Limit}`;
@@ -201,7 +194,6 @@ function buyUpgrade(id) {
         if (id === 'star1Upgrade1') {
             star1Power -= star1Upgrade1Price;
             star1Upgrade1Qt++;
-            // star1Gain += star1Upgrade1Power;
             star1GainBase += star1Upgrade1Power;
             star1Upgrade1Price *= star1Upgrade1PriceMod;
         }
@@ -224,7 +216,6 @@ function buyUpgrade(id) {
         if (id === 'star1Upgrade4') {
             star1Power -= star1Upgrade4Price;
             star1Upgrade4Qt++;
-            // star1Gain += star1Upgrade1Power;
             star1GainBase += star1Upgrade4Power;
             star1Upgrade4Price *= star1Upgrade4PriceMod;
         }
@@ -240,7 +231,6 @@ function buyUpgrade(id) {
         if (id === 'star2Upgrade2') {
             star2Power += star2Upgrade2Price;
             star2Upgrade2Qt++;
-            // star1Upgrade1Power += star1Upgrade2Power;
             star2Upgrade2Price *= star2Upgrade2PriceMod;
         }
     
@@ -273,7 +263,6 @@ function buyUpgrade(id) {
 function prestige(id) {
     star1Power = 0;
     star1GainBase = 0.0001;
-    // star1GainModifier = 1;
 
     star2Power = star2Limit;
     star2GainBase = 0.001;
@@ -316,14 +305,10 @@ function prestige(id) {
     star2Upgrade4Power = 0.003;
     star2Upgrade4Price = 0.01;
 
-    // curMenuId = null;
     clearInterval(curIntervalId);
     curIntervalId = null;
-
-    // console.log(curIntervalId);
     
     if (id === 'star3Upgrade1' || prestiges.prestige1 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige1 = true;
         star1GainModifier *= 2;
         star1Upgrade1Power *= 2;
@@ -332,51 +317,42 @@ function prestige(id) {
     }
 
     if (id === 'star3Upgrade2' || prestiges.prestige2 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige2 = true;
         star2Time /= 2;
         // Implement "Each fill burns double energy"
     }
 
     if (id === 'star3Upgrade3' || prestiges.prestige3 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige3 = true;
         powerStar2();
     }
 
     if (id === 'star3Upgrade4' || prestiges.prestige4 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige4 = true;
     }
 
     if (id === 'star3Upgrade5' || prestiges.prestige5 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige5 = true;
     }
 
     if (id === 'star3Upgrade6' || prestiges.prestige6 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige6 = true;
         buyUpgrade('star2Upgrade3');
     }
 
     if (id === 'star3Upgrade7' || prestiges.prestige7 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige7 = true;
     }
 
     if (id === 'star3Upgrade8' || prestiges.prestige8 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige8 = true;
     }
 
     if (id === 'star3Upgrade9' || prestiges.prestige9 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige9 = true;
     }
 
     if (id === 'star3Upgrade10' || prestiges.prestige10 === true) {
-        // star3Power -= prestigePrice;
         prestiges.prestige10 = true;
         star2Upgrade1Price = tempStar2Upgrade1Price;
         star2Upgrade2Price = tempStar2Upgrade2Price;
@@ -386,6 +362,8 @@ function prestige(id) {
             star1Upgrade2Price = tempStar1Upgrade2Price;
         }
     }
+
+    isReady = false;
 }
 
 function updateUi() {
@@ -399,20 +377,11 @@ function updateUi() {
     else autoBtn.classList.remove('hidden');
 
     if (star1Power >= star1Limit && !isAuto) {
-        // star1Power = 1;
-
         star1Btn.removeEventListener('click', powerStar1);
         transferBtn.classList.remove('hidden');
-
-        // transferBtn.addEventListener('click', () => {
-
-        //     handleStar1Power();
-        //     star1Btn.addEventListener('click', powerStar1);
-        // })
     }
 
     if((star1Power < star1Limit && !isAuto) || isAuto) {
-        // star1Btn.addEventListener('click', powerStar1);
         transferBtn.classList.add('hidden');
     }
 
