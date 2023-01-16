@@ -422,20 +422,20 @@ function updateUi() {
 
     if (!star2Power || star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[4].classList.add('hidden')
     else upgradeBtns[4].classList.remove('hidden')
-    upgradeBtns[4].querySelector('.upgInfo').innerHTML = `(${star2Upgrade1Price.toFixed(4)}) [${star2Upgrade1Qt}]`;
+    upgradeBtns[4].querySelector('.upgInfo').innerHTML = `(${star2Upgrade1Price.toFixed(3)}) [${star2Upgrade1Qt}]`;
 
     if (!star2Power || star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[5].classList.add('hidden')
     else upgradeBtns[5].classList.remove('hidden')
     upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade2Qt;
-    upgradeBtns[5].querySelector('.upgInfo').innerHTML = `(${star2Upgrade2Price.toFixed(4)}) [${star2Upgrade2Qt}]`;
+    upgradeBtns[5].querySelector('.upgInfo').innerHTML = `(${star2Upgrade2Price.toFixed(3)}) [${star2Upgrade2Qt}]`;
 
     if (!star2Power || star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[6].classList.add('hidden')
     else upgradeBtns[6].classList.remove('hidden')
-    upgradeBtns[6].querySelector('.upgInfo').innerHTML = `(${star2Upgrade3Price.toFixed(4)}) [${star2Upgrade3Qt}]`;
+    upgradeBtns[6].querySelector('.upgInfo').innerHTML = `(${star2Upgrade3Price.toFixed(3)}) [${star2Upgrade3Qt}]`;
 
     if (star2Power && (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7)) upgradeBtns[7].classList.remove('hidden')
     else upgradeBtns[7].classList.add('hidden')
-    upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(4)}) [${star2Upgrade4Qt}]`;
+    upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(3)}) [${star2Upgrade4Qt}]`;
 
     Object.keys(prestiges).forEach((key, index) => {
         if (isReady && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
