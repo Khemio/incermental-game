@@ -15,7 +15,7 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0;
+let star1Power = 0.9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
@@ -386,8 +386,8 @@ function updateUi() {
 
     autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
 
-    if (star1Power < star1Limit) autoBtn.classList.add('hidden');
-    else autoBtn.classList.remove('hidden');
+    if (star1Power >= star1Limit) autoBtn.classList.remove('hidden');
+    // else autoBtn.classList.remove('hidden');
 
     if (star1Power >= star1Limit && !isAuto) {
         star1Btn.removeEventListener('click', (e) => powerStar1(e));
