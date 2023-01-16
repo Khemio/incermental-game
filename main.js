@@ -15,13 +15,13 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0;
+let star1Power = 0.9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
 
 let star2Limit = star1Limit;
-let star2Power = star2Limit;
+let star2Power;
 let star2GainBase = 0.001;
 let star2GainModifier = 1;
 let star2Gain;
@@ -99,6 +99,16 @@ autoBtn.addEventListener('click', () => {
     transferBtn.classList.toggle('hidden');
     updateUi();
 });
+transferBtn.addEventListener('click', (e) => {
+    console.log(e)
+    handleStar1Power();
+    // star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
+    updateUi();
+    if (e.target.id === 'star1') {
+        return;
+    };
+    // star1Btn.addEventListener('click', () => powerStar1(e));
+})
 
 star1Btn.addEventListener('click', (e) => showUpgrades(e));
 star2Btn.addEventListener('click', (e) => showUpgrades(e));
@@ -119,65 +129,65 @@ function showUpgrades(e) {
         })
 }
 
-function powerStar1(e) {
-    if (e.target.id === 'autoToggle') return;
+function powerStar1(e = null) {
+    if (e?.target.id === 'autoToggle' || e?.target.id === 'transfer') return;
     if (prestiges.prestige4) star1GainModifier *= 1 + (star1Upgrade1Qt + star1Upgrade2Qt + star1Upgrade3Qt) * 0.05;
     
     star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
     // console.log(e)
-
+    
     if (star1Power >= star1Limit && !isAuto) {
         star1Power = 1;
         
-        star1Btn.removeEventListener('click', powerStar1);
+        // star1Btn.removeEventListener('click', (e) => powerStar1(e));
         transferBtn.classList.remove('hidden');
-
-        transferBtn.addEventListener('click', () => {
-
-            handleStar1Power();
-            star1Btn.addEventListener('click', powerStar1);
-        })
     }
-
+    
     else if (star1Power >= star1Limit && isAuto) {
         handleStar1Power();
     }
 
-    star1Btn.removeEventListener('click', powerStar1);
+    // star1Btn.removeEventListener('click', (e) => powerStar1(e))
 
     updateUi();
 }
 
 function handleStar1Power() {
+    // console.log(star2Gain)
     star1Power = star1Power - star1Limit;
     if (!curIntervalId) {
+        star2Power = 1;
         star2Btn.querySelector('span').innerHTML = `${star2Power}/${star2Limit}`;
         powerStar2();
     }
     // else star2Gain *= 2;
     else {
-        star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+        // console.log(star2Upgrade1Qt)
+        // star2Gain = star2Upgrade1Qt > 0 ? (star2Gain + star2Upgrade1Power) * 2 : star2Gain * 2;
+        star2GainBase *= 2;
         star2Power -= star2Upgrade2Qt * star2Gain;
 
         if (prestiges.prestige9) {
-            star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+            // star2Gain = (star2Gain + star2Upgrade1Power) * 2;
+            star2GainBase *= 2;
             star2Power -= star2Upgrade2Qt * star2Gain;
         }
     };
     
     transferBtn.classList.add('hidden');
     star1Power = 0;
+
+    
 }
 
 function powerStar2() {
     if (prestiges.prestige5) star2GainModifier *= 1 + (star2Upgrade1Qt + star2Upgrade2Qt + star2Upgrade3Qt) * 0.05;
-    star2Gain = star2GainBase * star2GainModifier
     curIntervalId = setInterval(() => {
+        star2Gain = star2GainBase * star2GainModifier
         star2Power -= star2Gain;
 
-        if ( prestiges.prestige8) powerStar1();
-
+        if ( prestiges.prestige8) powerStar1(); //TODO FIX THIS
         if (star2Power <= 0) {
             star2Power = 0;
 
@@ -226,6 +236,7 @@ function buyUpgrade(id) {
             star2Power += star2Upgrade1Price;
             star2Upgrade1Qt++;
             star2Upgrade1Price *= star2Upgrade1PriceMod;
+            star2GainBase += star2Upgrade1Power;
         }
     
         if (id === 'star2Upgrade2') {
@@ -368,7 +379,7 @@ function prestige(id) {
 
 function updateUi() {
     star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
-    star2Btn.querySelector('span').innerHTML = star2Power < star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
+    star2Btn.querySelector('span').innerHTML = star2Power <= star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
     star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power}/${star3Limit}` : 'Inactive';
 
     autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
@@ -377,7 +388,7 @@ function updateUi() {
     else autoBtn.classList.remove('hidden');
 
     if (star1Power >= star1Limit && !isAuto) {
-        star1Btn.removeEventListener('click', powerStar1);
+        star1Btn.removeEventListener('click', (e) => powerStar1(e));
         transferBtn.classList.remove('hidden');
     }
 
