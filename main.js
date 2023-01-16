@@ -434,7 +434,6 @@ function updateUi() {
     upgradeBtns[6].querySelector('.upgInfo').innerHTML = `(${star2Upgrade3Price.toFixed(4)}) [${star2Upgrade3Qt}]`;
 
     if (star2Power || (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7)) upgradeBtns[7].classList.remove('hidden')
-    // upgradeBtns[7].classList.add('hidden')
     else upgradeBtns[7].classList.add('hidden')
     upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(4)}) [${star2Upgrade4Qt}]`;
 
