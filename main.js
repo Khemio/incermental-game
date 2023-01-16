@@ -373,7 +373,7 @@ function prestige(id) {
         for ( let i = 0; i < tempStar2Upgrade3Qt; i++) {
             buyUpgrade('star2Upgrade3');
             star2Power = star2Limit;
-            star1Power = star1Limit;
+            star1Power = 0;
         }
 
         // if (prestiges.prestige6 === true) {
