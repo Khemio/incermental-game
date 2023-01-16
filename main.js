@@ -165,12 +165,12 @@ function handleStar1Power() {
     else {
         // console.log(star2Upgrade1Qt)
         // star2Gain = star2Upgrade1Qt > 0 ? (star2Gain + star2Upgrade1Power) * 2 : star2Gain * 2;
-        star2GainBase *= 2;
+        star2GainBase *= 1.1;
         star2Power -= star2Upgrade2Qt * star2Gain;
 
         if (prestiges.prestige9) {
             // star2Gain = (star2Gain + star2Upgrade1Power) * 2;
-            star2GainBase *= 2;
+            star2GainBase *= 1.1;
             star2Power -= star2Upgrade2Qt * star2Gain;
         }
 
