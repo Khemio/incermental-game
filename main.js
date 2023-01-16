@@ -173,6 +173,8 @@ function handleStar1Power() {
             star2GainBase *= 2;
             star2Power -= star2Upgrade2Qt * star2Gain;
         }
+
+        if (star2Power <= 0) star2Power = 0;
     };
     
     transferBtn.classList.add('hidden');
