@@ -135,6 +135,7 @@ function powerStar1(e = null) {
     
     star1Gain = star1GainBase * star1GainModifier;
     star1Power += star1Gain;
+    console.log(star2Power)
     // console.log(e)
     
     if (star1Power >= star1Limit && !isAuto) {
@@ -257,6 +258,7 @@ function buyUpgrade(id) {
             if(prestiges.prestige6) {
                 star1Upgrade1Price /= 2;
                 star1Upgrade2Price /= 2;
+                star1Upgrade3Price /= 2;
             }
         }
 
@@ -418,20 +420,21 @@ function updateUi() {
     else upgradeBtns[3].classList.add('hidden')
     upgradeBtns[3].querySelector('.upgInfo').innerHTML = `(${star1Upgrade4Price.toFixed(4)}) [${star1Upgrade4Qt}]`;
 
-    if (star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[4].classList.add('hidden')
+    if (!star2Power || star2Power > star2Limit - star2Upgrade1Price) upgradeBtns[4].classList.add('hidden')
     else upgradeBtns[4].classList.remove('hidden')
     upgradeBtns[4].querySelector('.upgInfo').innerHTML = `(${star2Upgrade1Price.toFixed(4)}) [${star2Upgrade1Qt}]`;
 
-    if (star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[5].classList.add('hidden')
+    if (!star2Power || star2Power > star2Limit - star2Upgrade2Price) upgradeBtns[5].classList.add('hidden')
     else upgradeBtns[5].classList.remove('hidden')
     upgradeBtns[5].querySelector('span').innerHTML = star2Upgrade2Qt;
     upgradeBtns[5].querySelector('.upgInfo').innerHTML = `(${star2Upgrade2Price.toFixed(4)}) [${star2Upgrade2Qt}]`;
 
-    if (star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[6].classList.add('hidden')
+    if (!star2Power || star2Power > star2Limit - star2Upgrade3Price) upgradeBtns[6].classList.add('hidden')
     else upgradeBtns[6].classList.remove('hidden')
     upgradeBtns[6].querySelector('.upgInfo').innerHTML = `(${star2Upgrade3Price.toFixed(4)}) [${star2Upgrade3Qt}]`;
 
-    if (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7) upgradeBtns[7].classList.remove('hidden')
+    if (star2Power || (star2Power <= star2Limit - star2Upgrade4Price && prestiges.prestige7)) upgradeBtns[7].classList.remove('hidden')
+    // upgradeBtns[7].classList.add('hidden')
     else upgradeBtns[7].classList.add('hidden')
     upgradeBtns[7].querySelector('.upgInfo').innerHTML = `(${star2Upgrade4Price.toFixed(4)}) [${star2Upgrade4Qt}]`;
 
