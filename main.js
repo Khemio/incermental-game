@@ -15,7 +15,7 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0.9999;
+let star1Power = 0;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
