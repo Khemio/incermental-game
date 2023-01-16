@@ -15,7 +15,7 @@ upgradeBtns.forEach(btn => btn.addEventListener('click', (e) => buyUpgrade(e.tar
 let isAuto = false;
 
 let star1Limit = 1;
-let star1Power = 0;
+let star1Power = 0.9999;
 let star1GainBase = 0.0001;
 let star1GainModifier = 1;
 let star1Gain;
@@ -286,12 +286,12 @@ function prestige(id) {
 
     star1Upgrade1Qt = 0;
     star1Upgrade1Power = 0.0001;
-    let tempStar1Upgrade1Price = star1Upgrade1Price
+    // let tempStar1Upgrade1Price = star1Upgrade1Price
     star1Upgrade1Price = 0.001;
 
     star1Upgrade2Qt = 0;
     star1Upgrade2Power = 0.0001;
-    let tempStar1Upgrade2Price = star1Upgrade2Price
+    // let tempStar1Upgrade2Price = star1Upgrade2Price
     star1Upgrade2Price = 0.01;
 
     star1Upgrade3Qt = 0;
@@ -303,14 +303,15 @@ function prestige(id) {
 
     star2Upgrade1Qt = 0;
     star2Upgrade1Power = 0.001;
-    let tempStar2Upgrade1Price = star2Upgrade1Price;
+    // let tempStar2Upgrade1Price = star2Upgrade1Price;
     star2Upgrade1Price = 0.005;
 
     star2Upgrade2Qt = 0;
     // star2Upgrade2Power = 0.001;
-    let tempStar2Upgrade2Price = star2Upgrade2Price;
+    // let tempStar2Upgrade2Price = star2Upgrade2Price;
     star2Upgrade2Price = 0.1;
 
+    let tempStar2Upgrade3Qt = star2Upgrade3Qt;
     star2Upgrade3Qt = 0;
     star2Upgrade3Price = 0.05;
 
@@ -367,13 +368,16 @@ function prestige(id) {
 
     if (id === 'star3Upgrade10' || prestiges.prestige10 === true) {
         prestiges.prestige10 = true;
-        star2Upgrade1Price = tempStar2Upgrade1Price;
-        star2Upgrade2Price = tempStar2Upgrade2Price;
-
-        if (prestiges.prestige6 === true) {
-            star1Upgrade1Price = tempStar1Upgrade1Price;
-            star1Upgrade2Price = tempStar1Upgrade2Price;
+        for ( let i = 0; i < tempStar2Upgrade3Qt; i++) {
+            buyUpgrade('star2Upgrade3');
+            star2Power = star2Limit;
+            star1Power = star1Limit;
         }
+
+        // if (prestiges.prestige6 === true) {
+        //     star1Upgrade1Price = tempStar1Upgrade1Price;
+        //     star1Upgrade2Price = tempStar1Upgrade2Price;
+        // }
     }
 
     isReady = false;
