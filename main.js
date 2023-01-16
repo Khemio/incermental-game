@@ -441,6 +441,6 @@ function updateUi() {
         if (isReady && !prestiges[key])  upgradeBtns[8 + index].classList.remove('hidden')
         else upgradeBtns[8 + index].classList.add('hidden')
 
-        if (!Object.values(prestiges).includes(false)) winBtn.classList.remove('hidden');
+        if (!Object.values(prestiges).includes(false) && isReady) winBtn.classList.remove('hidden');
     })
 }
