@@ -380,7 +380,7 @@ function prestige(id) {
 function updateUi() {
     star1Btn.querySelector('span').innerHTML = `${star1Power.toFixed(4)}/${star1Limit}`;
     star2Btn.querySelector('span').innerHTML = star2Power <= star2Limit ? `${star2Power.toFixed(3)}/${star2Limit}` : 'Inactive';
-    star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power}/${star3Limit}` : 'Inactive';
+    star3Btn.querySelector('span').innerHTML = isReady ? `${star3Power.toFixed(1)}/${star3Limit}` : 'Inactive';
 
     autoBtn.innerHTML = isAuto ? 'Auto I' : 'Auto 0'
 
